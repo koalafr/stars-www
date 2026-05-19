@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="icon" href="./favicon.png" type="image/png" />
+    <title>Stars</title>
+  </head>
+  <body>
+    <div class="space-layer space-layer-clouds" aria-hidden="true"></div>
+    <div class="space-layer space-layer-nebula" aria-hidden="true"></div>
+    <div class="space-layer space-layer-stars" aria-hidden="true"></div>
+    <div class="space-layer space-layer-stars-front" aria-hidden="true"></div>
+    <main>
+      <img class="logo" src="./img/planet.gif" alt="planet" />
+    </main>
+    <script>
+      const root = document.documentElement;
+
+      function setParallax(x, y) {
+        root.style.setProperty("--parallax-x", x.toFixed(3));
+        root.style.setProperty("--parallax-y", y.toFixed(3));
+      }
+
+      function updateParallax(clientX, clientY) {
+        const x = clientX / window.innerWidth - 0.5;
+        const y = clientY / window.innerHeight - 0.5;
+
+        setParallax(x, y);
+      }
+
+      window.addEventListener("pointermove", (event) => {
+        updateParallax(event.clientX, event.clientY);
+      });
+
+      window.addEventListener(
+        "touchmove",
+        (event) => {
+          const touch = event.touches[0];
+
+          if (touch) {
+            updateParallax(touch.clientX, touch.clientY);
+          }
+        },
+        { passive: true }
+      );
+
+      window.addEventListener("pointerleave", () => {
+        setParallax(0, 0);
+      });
+    </script>
+  </body>
+</html>
